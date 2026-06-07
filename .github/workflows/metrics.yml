@@ -23,10 +23,11 @@ jobs:
       - name: Generate metrics
         uses: lowlighter/metrics@latest
         with:
-          # GITHUB_TOKEN is sufficient for public data + the plugins below.
-          # Swap for a classic PAT secret (e.g. METRICS_TOKEN) only if you later
-          # add plugins that need private-repo data or third-party integrations.
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Classic PAT (repo scope) so private-repo data is included in stats.
+          token: ${{ secrets.METRICS_TOKEN }}
+          # Commit the generated SVG with the repo's built-in token (default),
+          # keeping the PAT scoped to data fetching only.
+          committer_token: ${{ secrets.GITHUB_TOKEN }}
           user: usualdesigner
           filename: github-metrics.svg
           template: classic
