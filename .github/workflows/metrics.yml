@@ -23,7 +23,8 @@ jobs:
       - name: Generate metrics
         uses: lowlighter/metrics@latest
         with:
-          # Classic PAT (repo scope) so private-repo data is included in stats.
+          # Classic PAT (public data only — no scopes needed). The profile is
+          # public-facing, so private-repo data is intentionally excluded.
           token: ${{ secrets.METRICS_TOKEN }}
           # Commit the generated SVG with the repo's built-in token (default),
           # keeping the PAT scoped to data fetching only.
@@ -31,24 +32,8 @@ jobs:
           user: usualdesigner
           filename: github-metrics.svg
           template: classic
+          # Headline numbers only — languages live in the top-languages card.
           base: header, activity, community, repositories, metadata
           config_timezone: America/New_York
-
-          # Top languages
-          plugin_languages: yes
-          plugin_languages_categories: markup, programming
-          plugin_languages_colors: github
-          plugin_languages_limit: 8
-          plugin_languages_sections: most-used
-          plugin_languages_threshold: 0%
-
-          # Isometric commit calendar (activity heatmap)
-          plugin_isocalendar: yes
-          plugin_isocalendar_duration: full-year
-
-          # Achievements
-          plugin_achievements: yes
-          plugin_achievements_threshold: C
-          plugin_achievements_secrets: yes
-          plugin_achievements_display: detailed
-          plugin_achievements_limit: 0
+          # A single flaky plugin should never fail the whole run.
+          plugins_errors_fatal: no
